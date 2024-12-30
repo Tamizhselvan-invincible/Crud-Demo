@@ -19,39 +19,35 @@ public class EmployeeController {
 
     // Add a new employee
     @PostMapping("/employees")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-        return ResponseEntity.ok(employeeService.addEmployee(employee));
+    public Employee addEmployee(@RequestBody Employee employee) {
+        return employeeService.addEmployee(employee);
     }
 
     // Get all employees
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getAllEmployees() {
-        return ResponseEntity.ok(employeeService.getAllEmployees());
+    public List<Employee> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 
     // Get employee by ID
     @GetMapping("employee/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable String id) {
-        return employeeService.getEmployeeById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Employee getEmployeeById(@PathVariable String id) {
+        return employeeService.getEmployeeById(id).orElse(null);
     }
 
     // Update an employee
     @PutMapping("employee/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable String id, @RequestBody Employee employee) {
-        return employeeService.updateEmployee(id, employee)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Employee updateEmployee(@PathVariable String id, @RequestBody Employee employee) {
+        return employeeService.updateEmployee(id, employee).orElse(null);
     }
 
     // Delete an employee
     @DeleteMapping("employee/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable String id) {
+    public void deleteEmployee(@PathVariable String id) {
         if (employeeService.deleteEmployee(id)) {
-            return ResponseEntity.noContent().build();
+            return;
         } else {
-            return ResponseEntity.notFound().build();
+            return;
         }
     }
 }
